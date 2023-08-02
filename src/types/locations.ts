@@ -44,6 +44,7 @@ export enum Category {
   ORDER = "Order (Restaurant)",
   TAKEOUT = "Takeout",
   PICKUP = "Pickup (Restaurant)",
+  RESERVE = "Reserve (Restaurant)",
   MENU = "Menu",
   APPOINTMENT = "Appointment",
   PORTFOLIO = "Portfolio",
@@ -131,6 +132,83 @@ export interface ComplexImage {
 export interface Coordinate {
   latitude?: number;
   longitude?: number;
+}
+
+export interface C_aboutTheStore {
+  aboutSectionTitle?: string;
+  aboutDescription?: any;
+  storeImage?: Image;
+}
+
+export enum LinkType {
+  OTHER = "Other",
+  URL = "URL",
+  PHONE = "Phone",
+  EMAIL = "Email",
+}
+
+export interface CTA {
+  label?: string;
+  linkType?: LinkType;
+  link?: string;
+}
+
+export interface OurExpertServices {
+  title?: string;
+  description?: any;
+  cTA?: CTA;
+  image?: Image;
+}
+
+export interface C_expertServices {
+  ourExpertServices?: OurExpertServices[];
+}
+
+export interface C_mainCTA {
+  label?: string;
+  linkType?: LinkType;
+  link?: string;
+}
+
+export interface EntityReference {
+  entityId: string;
+  name: string;
+}
+
+export interface C_nearbyLocations {
+  nearbyLocations?: EntityReference[];
+}
+
+export interface C_promotion1 {
+  promotionTitle?: string;
+  description?: any;
+  cTA?: CTA;
+  image?: Image;
+}
+
+export interface C_promotion2 {
+  promotionTitle?: string;
+  description?: any;
+  cTA?: CTA;
+  image?: Image;
+}
+
+export interface C_relatedFAQs {
+  relatedFAQs?: EntityReference[];
+}
+
+export interface StoreServices {
+  serviceName?: string;
+  icon?: Image;
+}
+
+export interface C_servicesAvailable {
+  storeServices?: StoreServices[];
+}
+
+export interface C_trendingProducts {
+  sectionHeader?: string;
+  products?: EntityReference[];
 }
 
 export interface FeaturedMessage {
@@ -355,6 +433,21 @@ export default interface Location {
   categories?: any;
   cityCoordinate?: Coordinate;
   closed?: boolean;
+  c_aboutTheStore?: C_aboutTheStore;
+  c_expertServices?: C_expertServices;
+  c_footer?: Image;
+  c_headerImage?: Image;
+  c_mainCTA?: C_mainCTA;
+  c_mapPhoto?: Image;
+  c_nearbyLocations?: C_nearbyLocations;
+  c_pageTitle?: string;
+  c_promotion1?: C_promotion1;
+  c_promotion2?: C_promotion2;
+  c_relatedFAQs?: C_relatedFAQs;
+  c_servicesAvailable?: C_servicesAvailable;
+  c_storeGeomodifier?: string;
+  c_storefrontPhoto?: Image;
+  c_trendingProducts?: C_trendingProducts;
   displayCoordinate?: Coordinate;
   dropoffCoordinate?: Coordinate;
   emails?: string[];

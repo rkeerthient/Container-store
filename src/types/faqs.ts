@@ -20,7 +20,7 @@ export interface ComplexImage {
 }
 
 export default interface Faq {
-	answer?: string,
+	answerV2?: any,
 	landingPageUrl?: string,
 	nudgeEnabled?: boolean,
 	primaryConversationContact?: any,
@@ -28,8 +28,6 @@ export default interface Faq {
 	slug?: string,
 	logo?: ComplexImage,
 	name: string,
-	c_category?: string,
-	c_subCategory?: string,
 	keywords?: string[],
 	id: string,
 	timezone?: any,

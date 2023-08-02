@@ -11,7 +11,7 @@ const List = (props: List) => {
   return (
     <>
       <div>
-        <div className="text-xl font-semibold mb-4">Services</div>
+        <div className="text-2xl font-semibold mb-4">Services</div>
         <ul className="list-disc pl-6 space-y-2">{listItems}</ul>
       </div>
     </>

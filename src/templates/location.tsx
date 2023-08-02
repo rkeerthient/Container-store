@@ -19,14 +19,16 @@ import {
   TemplateRenderProps,
 } from "@yext/pages";
 import * as React from "react";
-import Banner from "../components/banner";
-import Contact from "../components/contact";
-import Cta from "../components/cta";
 import Hours from "../components/hours";
 import List from "../components/list";
 import PageLayout from "../components/page-layout";
-import StaticMap from "../components/static-map";
 import "../index.css";
+import { Image } from "@yext/pages/components";
+import Carousel from "../components/Carousel";
+import ProductsCarousel from "../components/ProductsCarousel";
+import ExpertServicesCarousel from "../components/ExpertServicesCarousel";
+import FAQs from "../components/FAQs";
+import { LexicalRichText } from "@yext/react-components";
 
 /**
  * Required when Knowledge Graph data is used for a template.
@@ -48,6 +50,21 @@ export const config: TemplateConfig = {
       "slug",
       "geocodedCoordinate",
       "services",
+      "c_promotion1",
+      "c_promotion2",
+      "c_aboutTheStore",
+      "c_trendingProducts.sectionHeader",
+      "c_trendingProducts.products.name",
+      "c_trendingProducts.products.primaryPhoto",
+      "c_trendingProducts.products.price",
+      "c_expertServices",
+      "c_relatedFAQs.relatedFAQs.name",
+      "c_relatedFAQs.relatedFAQs.answerV2",
+      "c_nearbyLocations.nearbyLocations.name",
+      "c_nearbyLocations.nearbyLocations.address",
+      "c_nearbyLocations.nearbyLocations.geomodifier",
+
+      // "c_expertServices.image",
     ],
     // Defines the scope of entities that qualify for this stream.
     filter: {
@@ -135,41 +152,152 @@ const Location: Template<TemplateRenderProps> = ({
     mainPhone,
     geocodedCoordinate,
     services,
+    c_promotion1,
+    c_aboutTheStore,
+    c_promotion2,
+    c_trendingProducts,
+    c_expertServices,
+    c_relatedFAQs,
+    c_nearbyLocations,
   } = document;
 
   return (
     <>
       <PageLayout>
-        <Banner name={name} address={address} openTime={openTime}>
-          <div className="bg-white h-40 w-1/5 flex items-center justify-center text-center flex-col space-y-4 rounded-lg">
-            <div className="text-black text-base">Visit Us Today!</div>
-            <Cta
-              buttonText="Get Directions"
-              url="http://google.com"
-              style="primary-cta"
-            />
-          </div>
-        </Banner>
-        <div className="centered-container">
-          <div className="section">
-            <div className="grid grid-cols-3 gap-x-10 gap-y-10">
-              <div className="bg-gray-100 p-5 space-y-12">
-                <Contact address={address} phone={mainPhone}></Contact>
-                {services && <List list={services}></List>}
-              </div>
-              <div className="col-span-2 pt-5 space-y-10">
-                <div>
-                  {hours && <Hours title={"Restaurant Hours"} hours={hours} />}
+        <div className="bg-gray-200  space-y-8 py-8">
+          {/* hero */}
+          <div className="flex flex-col">
+            <div>
+              <img
+                src="https://i.imgur.com/2qJ5k7P.png"
+                className="w-full h-auto"
+                alt=""
+              />
+            </div>
+            <div className="centered-container w-full ">
+              <div className="grid grid-cols-3 justify-between w-full gap-8">
+                <div className="bg-white shadow border flex flex-col text-2xl p-8 justify-between h-full">
+                  <div className="font-semibold text-4xl">{name}</div>
+                  <div>{address.line1}</div>
+                  <div className="underline text-blue-200">{mainPhone}</div>
+                  <div className="underline text-blue-200">
+                    Make This My Store
+                  </div>
+                  <div className="underline text-blue-200">Get Directions</div>
+                  <div className="text-base">
+                    SCHEDULE CUSTOM SPACES APPOINTMENT
+                  </div>
                 </div>
-                {geocodedCoordinate && (
-                  <StaticMap
-                    latitude={geocodedCoordinate.latitude}
-                    longitude={geocodedCoordinate.longitude}
-                  ></StaticMap>
-                )}
+                <div className="bg-white shadow border p-8">
+                  {hours && <Hours hours={hours} title="Hours" />}
+                </div>
+                <div className="bg-white shadow border p-8 text-xl">
+                  {services && <List list={services}></List>}
+                </div>
               </div>
             </div>
           </div>
+          {/* Free consultation block */}
+          {c_promotion1 && (
+            <div className="centered-container bg-white flex w-full justify-center gap-8">
+              <div className="w-1/2 ">
+                <div className="  flex flex-col h-full justify-evenly  ">
+                  <div className="text-5xl">{c_promotion1.promotionTitle}</div>
+                  {/* <div className="text-xl">{c_promotion1.description.json}</div> */}
+                  <div className="text-xl">
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                    Optio dignissimos consectetur eum, voluptates laudantium,
+                    consequuntur nulla odit nemo eos repellat culpa modi
+                    reiciendis id nisi tempora delectus pariatur! Blanditiis,
+                    eos.
+                  </div>
+                  <div className="rounded-md border w-fit px-5 py-2.5 border-black">
+                    {c_promotion1.cTA.label}
+                  </div>
+                </div>
+              </div>
+              <div>
+                <Image
+                  image={c_promotion1.image}
+                  className="h-[500px] w-[500px]"
+                />
+              </div>
+            </div>
+          )}
+          {/* Trending products */}
+          {c_trendingProducts && (
+            <ProductsCarousel
+              data={c_trendingProducts.products}
+              header={c_trendingProducts.sectionHeader}
+            />
+          )}
+          {/* New and now */}
+          {c_promotion2 && (
+            <div
+              className="centered-container bg-white flex w-full  gap-8 h-[600px] bg-contain bg-no-repeat text-white"
+              style={{ backgroundImage: `url(${c_promotion2.image.url} )` }}
+            >
+              <div className="w-1/2">
+                <div className="  flex flex-col h-full justify-evenly  ">
+                  <div className="text-5xl">{c_promotion2.promotionTitle}</div>
+                  {/* <div className="text-xl">{c_promotion1.description.json}</div> */}
+                  <div className="text-xl">
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                    Optio dignissimos consectetur eum, voluptates laudantium,
+                    consequuntur nulla odit nemo eos repellat culpa modi
+                    reiciendis id nisi tempora delectus pariatur! Blanditiis,
+                    eos.
+                  </div>
+                  <div className="rounded-md border w-fit px-5 py-2.5 border-white">
+                    {c_promotion2.cTA.label}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          {/* Expert Services */}
+          {c_expertServices && (
+            <ExpertServicesCarousel
+              data={c_expertServices.ourExpertServices}
+              header={"Our Expert  Services"}
+            />
+          )}
+          {/* FAQs */}
+          {c_relatedFAQs && (
+            <div className="centered-container">
+              {c_relatedFAQs.relatedFAQs.map((item: any, index: any) => (
+                <div key={index}>
+                  <FAQs faq={item}></FAQs>
+                </div>
+              ))}
+            </div>
+          )}
+          {/* store detail */}
+          {c_aboutTheStore && (
+            <div className="bg-white flex items-center gap-4">
+              <div className="w-1/2">
+                <Image image={c_aboutTheStore.storeImage} layout="fill"></Image>
+              </div>
+              <div className="w-1/2 px-6">
+                <div className="w-4/5 flex flex-col gap-4 ">
+                  <div className="text-5xl font-bold">
+                    {c_aboutTheStore.aboutSectionTitle}
+                  </div>
+                  <div>
+                    <LexicalRichText
+                      serializedAST={JSON.stringify(
+                        c_aboutTheStore.aboutDescription.json
+                      )}
+                    ></LexicalRichText>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          {/* Near by locations */}
+          {c_nearbyLocations && (
+            <Carousel data={c_nearbyLocations.nearbyLocations} />
+          )}
         </div>
       </PageLayout>
     </>
