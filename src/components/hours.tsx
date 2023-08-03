@@ -115,12 +115,16 @@ const DayRow = (props: DayRow) => {
   const { dayName, day, isToday } = props;
 
   return (
-    <tr className={isToday ? "bg-gray-200" : ""}>
+    <tr
+      className={
+        isToday ? "bg-gray-200 leading-10  text-xl" : "leading-10 text-xl"
+      }
+    >
       <td className="capitalize text-left pl-1 pr-4">
         <span>{dayName}</span>
       </td>
       {!day.isClosed && (
-        <td className="pr-1 text-xl">
+        <td className="pr-1 ">
           <span>
             {convertTo12HourFormat(day.openIntervals[0].start, true)} -{" "}
             {convertTo12HourFormat(day.openIntervals[0].end, true)}

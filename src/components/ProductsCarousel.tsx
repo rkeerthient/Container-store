@@ -45,7 +45,7 @@ const ProductsCarousel = (props: any) => {
     ],
   };
   return (
-    <>
+    <div className="py-36 space-y-16 ">
       <div className="text-4xl mx-auto text-center font-bold">{header}</div>
       <Slider {...settings}>
         {data &&
@@ -59,7 +59,7 @@ const ProductsCarousel = (props: any) => {
             </div>
           ))}
       </Slider>
-    </>
+    </div>
   );
 };
 

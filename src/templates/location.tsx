@@ -63,6 +63,9 @@ export const config: TemplateConfig = {
       "c_nearbyLocations.nearbyLocations.name",
       "c_nearbyLocations.nearbyLocations.address",
       "c_nearbyLocations.nearbyLocations.geomodifier",
+      "c_storefrontPhoto",
+      "geomodifier",
+      "c_servicesAvailable",
 
       // "c_expertServices.image",
     ],
@@ -159,12 +162,15 @@ const Location: Template<TemplateRenderProps> = ({
     c_expertServices,
     c_relatedFAQs,
     c_nearbyLocations,
+    c_storefrontPhoto,
+    geomodifier,
+    c_servicesAvailable,
   } = document;
 
   return (
     <>
       <PageLayout>
-        <div className="bg-gray-200  space-y-8 py-8">
+        <div className="bg-gray-200 my-8 ">
           {/* hero */}
           <div className="flex flex-col">
             <div>
@@ -176,40 +182,46 @@ const Location: Template<TemplateRenderProps> = ({
             </div>
             <div className="centered-container w-full ">
               <div className="grid grid-cols-3 justify-between w-full gap-8">
-                <div className="bg-white shadow border flex flex-col text-2xl p-8 justify-between h-full">
-                  <div className="font-semibold text-4xl">{name}</div>
-                  <div>{address.line1}</div>
-                  <div className="underline text-blue-200">{mainPhone}</div>
-                  <div className="underline text-blue-200">
-                    Make This My Store
-                  </div>
-                  <div className="underline text-blue-200">Get Directions</div>
-                  <div className="text-base">
-                    SCHEDULE CUSTOM SPACES APPOINTMENT
+                <div className="bg-white shadow leading-10 border text-2xl  h-fit -mt-72">
+                  <Image image={c_storefrontPhoto}></Image>
+                  <div className=" flex flex-col p-8 justify-between gap-y-4">
+                    <div className="font-semibold text-4xl">
+                      {name}-{geomodifier}
+                    </div>
+                    <div>{address.line1}</div>
+                    <div className="underline text-blue-200">{mainPhone}</div>
+                    <div className="underline text-blue-200">
+                      Make This My Store
+                    </div>
+                    <div className="underline text-blue-200">
+                      Get Directions
+                    </div>
+                    <div className="text-base">
+                      SCHEDULE CUSTOM SPACES APPOINTMENT
+                    </div>
                   </div>
                 </div>
                 <div className="bg-white shadow border p-8">
                   {hours && <Hours hours={hours} title="Hours" />}
                 </div>
                 <div className="bg-white shadow border p-8 text-xl">
-                  {services && <List list={services}></List>}
+                  {services && <List list={c_servicesAvailable}></List>}
                 </div>
               </div>
             </div>
           </div>
           {/* Free consultation block */}
           {c_promotion1 && (
-            <div className="centered-container bg-white flex w-full justify-center gap-8">
+            <div className="  bg-white flex w-full justify-center gap-8 py-16">
               <div className="w-1/2 ">
                 <div className="  flex flex-col h-full justify-evenly  ">
                   <div className="text-5xl">{c_promotion1.promotionTitle}</div>
-                  {/* <div className="text-xl">{c_promotion1.description.json}</div> */}
                   <div className="text-xl">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Optio dignissimos consectetur eum, voluptates laudantium,
-                    consequuntur nulla odit nemo eos repellat culpa modi
-                    reiciendis id nisi tempora delectus pariatur! Blanditiis,
-                    eos.
+                    <LexicalRichText
+                      serializedAST={JSON.stringify(
+                        c_promotion1.description.json
+                      )}
+                    />
                   </div>
                   <div className="rounded-md border w-fit px-5 py-2.5 border-black">
                     {c_promotion1.cTA.label}
@@ -234,19 +246,18 @@ const Location: Template<TemplateRenderProps> = ({
           {/* New and now */}
           {c_promotion2 && (
             <div
-              className="centered-container bg-white flex w-full  gap-8 h-[600px] bg-contain bg-no-repeat text-white"
+              className="centered-container bg-white flex w-full gap-8 h-[600px] bg-contain bg-no-repeat text-white"
               style={{ backgroundImage: `url(${c_promotion2.image.url} )` }}
             >
               <div className="w-1/2">
                 <div className="  flex flex-col h-full justify-evenly  ">
                   <div className="text-5xl">{c_promotion2.promotionTitle}</div>
-                  {/* <div className="text-xl">{c_promotion1.description.json}</div> */}
                   <div className="text-xl">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Optio dignissimos consectetur eum, voluptates laudantium,
-                    consequuntur nulla odit nemo eos repellat culpa modi
-                    reiciendis id nisi tempora delectus pariatur! Blanditiis,
-                    eos.
+                    <LexicalRichText
+                      serializedAST={JSON.stringify(
+                        c_promotion2.description.json
+                      )}
+                    />
                   </div>
                   <div className="rounded-md border w-fit px-5 py-2.5 border-white">
                     {c_promotion2.cTA.label}
@@ -264,7 +275,10 @@ const Location: Template<TemplateRenderProps> = ({
           )}
           {/* FAQs */}
           {c_relatedFAQs && (
-            <div className="centered-container">
+            <div className="centered-container py-36 space-y-16">
+              <div className="text-4xl mx-auto text-center font-bold">
+                Frequently Asked Questions
+              </div>
               {c_relatedFAQs.relatedFAQs.map((item: any, index: any) => (
                 <div key={index}>
                   <FAQs faq={item}></FAQs>

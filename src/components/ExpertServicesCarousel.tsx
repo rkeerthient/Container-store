@@ -43,26 +43,28 @@ const ExpertServicesCarousel = (props: any) => {
     ],
   };
   return (
-    <div className="bg-white">
+    <div className="py-36 space-y-16 bg-white">
       <div className="text-4xl mx-auto text-center font-bold">{header}</div>
-      <Slider {...settings}>
-        {data &&
-          data.map((item: any, index: any) => (
-            <div key={index} className="p-4 border flex flex-row ">
-              <div className=" flex-col flex justify-between gap-10 font-normal">
-                <Image image={item.image} height={369} layout="fixed" />
-                <div className="text-2xl text-center font-bold">
-                  {item.title}
-                </div>
-                <div className="h-36">
-                  <LexicalRichText
-                    serializedAST={JSON.stringify(item.description.json)}
-                  />
+      <div className="h-full">
+        <Slider {...settings}>
+          {data &&
+            data.map((item: any, index: any) => (
+              <div key={index} className="p-4 flex flex-row ">
+                <div className=" flex-col flex justify-between gap-10 font-normal">
+                  <Image image={item.image} height={369} layout="fixed" />
+                  <div className="text-2xl text-center font-bold">
+                    {item.title}
+                  </div>
+                  <div>
+                    <LexicalRichText
+                      serializedAST={JSON.stringify(item.description.json)}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-      </Slider>
+            ))}
+        </Slider>
+      </div>
     </div>
   );
 };

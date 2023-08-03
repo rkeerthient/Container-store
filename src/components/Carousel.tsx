@@ -5,8 +5,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { Image } from "@yext/pages/components";
 import Cta from "./cta";
 import HoursText from "./HoursText";
-import { BsPhone } from "react-icons/bs";
-
+import { GrLocation } from "react-icons/gr";
+import { FaLocationArrow } from "react-icons/fa";
 const Carousel = (props: any) => {
   const { data } = props;
 
@@ -45,53 +45,55 @@ const Carousel = (props: any) => {
     ],
   };
   return (
-    <>
+    <div className="py-36 space-y-16 ">
       <div className="text-4xl mx-auto text-center font-bold">
         Nearby Locations
       </div>
       <Slider {...settings}>
         {data &&
           data.map((item: any, index: any) => (
-            <div key={index} className="p-4 border flex flex-row">
-              <div className="textClass flex-col flex justify-between leading-6 font-normal">
-                <div className=" text-left text-sm flex flex-col gap-4">
-                  <div className="mt-4 font-semibold text-2xl underline pb-2">
-                    {item.name} - {item.geomodifier}
-                  </div>
-                  <div className="mt-4 text-xl font-light">
-                    <div>{item.address.line1}</div>
-                    <div>
-                      {item.address.city}, {item.address.region} -{" "}
-                      {item.address.postalCode}
+            <span key={index}>
+              <div className="flex gap-4">
+                <GrLocation className="w-12 h-12 text-blue-300" />
+                <div className="textClass flex-col flex justify-between leading-6 font-normal">
+                  <div className=" text-left text-sm flex flex-col gap-4">
+                    <div className=" font-semibold text-2xl underline pb-2">
+                      {item.name} - {item.geomodifier}
                     </div>
-                    <div className="underline hover:cursor-pointer">
-                      {item.mainPhone &&
-                        item.mainPhone
-                          .replace("+1", "")
-                          .replace(/\D+/g, "")
-                          .replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")}
+                    <div className=" text-2xl font-light">
+                      <div>{item.address.line1}</div>
+                      <div>
+                        {item.address.city}, {item.address.region} -{" "}
+                        {item.address.postalCode}
+                      </div>
+                      <div className="underline hover:cursor-pointer">
+                        {item.mainPhone &&
+                          item.mainPhone
+                            .replace("+1", "")
+                            .replace(/\D+/g, "")
+                            .replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")}
+                      </div>
+                      {item.services && (
+                        <ul className="servList mt-4 flex flex-row">
+                          {item.services.map((nItem: any, index: number) => (
+                            <li key={index}>{nItem}</li>
+                          ))}
+                        </ul>
+                      )}
                     </div>
-                    {item.services && (
-                      <ul className="servList mt-4 flex flex-row">
-                        {item.services.map((nItem: any, index: number) => (
-                          <li key={index}>{nItem}</li>
-                        ))}
-                      </ul>
-                    )}
                   </div>
-                  {/* <div className="mt-4">
-                  <Cta
-                    buttonText={"View Store Details"}
-                    url={""}
-                    style="secondary-cta"
-                  ></Cta>
-                </div> */}
+                  <div className="flex gap-4 text-2xl mt-8">
+                    <FaLocationArrow />
+                    <div className="text-blue-300 underline">
+                      Get Directions
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            </span>
           ))}
       </Slider>
-    </>
+    </div>
   );
 };
 
