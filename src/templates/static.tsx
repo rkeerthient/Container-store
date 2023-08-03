@@ -14,7 +14,6 @@ import {
   TemplateProps,
   TemplateRenderProps,
 } from "@yext/pages";
-import Card from "../components/Card";
 import Favicon from "../assets/images/yext-favicon.ico";
 import Banner from "../components/banner";
 import PageLayout from "../components/page-layout";
@@ -112,9 +111,7 @@ const Static: Template<ExternalImageRenderData> = ({ externalImage }) => {
       <PageLayout>
         <Banner name={"Turtlehead Tacos"} />
         <div className="centered-container">
-          <div className="section space-y-14 px-10">
-            <Card {...externalImage} />
-          </div>
+          <div className="section space-y-14 px-10">Hi</div>
         </div>
       </PageLayout>
     </>
