@@ -19,60 +19,46 @@ import {
   TemplateRenderProps,
 } from "@yext/pages";
 import * as React from "react";
-import Hours from "../components/hours";
-import List from "../components/list";
 import PageLayout from "../components/page-layout";
 import "../index.css";
 import { Image } from "@yext/pages/components";
-import Carousel from "../components/Carousel";
 import ProductsCarousel from "../components/ProductsCarousel";
-import ExpertServicesCarousel from "../components/ExpertServicesCarousel";
-import FAQs from "../components/FAQs";
 import { LexicalRichText } from "@yext/react-components";
-import Schema from "../components/Schema";
+import { Tab } from "@headlessui/react";
 
 /**
  * Required when Knowledge Graph data is used for a template.
  */
 export const config: TemplateConfig = {
   stream: {
-    $id: "my-stream-id-1",
+    $id: "my-stream-id-2",
     // Specifies the exact data that each generated document will contain. This data is passed in
     // directly as props to the default exported function.
     fields: [
-      "id",
       "uid",
       "meta",
+      "primaryPhoto",
       "name",
-      "address",
-      "mainPhone",
-      "description",
-      "hours",
       "slug",
-      "geocodedCoordinate",
-      "services",
+      "c_customerReviews",
+      "c_icon",
       "c_promotion1",
       "c_promotion2",
-      "c_aboutTheStore",
+      "c_storeCreditCard",
       "c_trendingProducts.sectionHeader",
       "c_trendingProducts.products.name",
+      "c_trendingProducts.products.richTextDescriptionV2",
+      "c_trendingProducts.products.c_collectionName",
       "c_trendingProducts.products.primaryPhoto",
       "c_trendingProducts.products.price",
-      "c_expertServices",
-      "c_relatedFAQs.relatedFAQs.name",
-      "c_relatedFAQs.relatedFAQs.answerV2",
-      "c_nearbyLocations.nearbyLocations.name",
-      "c_nearbyLocations.nearbyLocations.address",
-      "c_nearbyLocations.nearbyLocations.geomodifier",
-      "c_storefrontPhoto",
-      "geomodifier",
-      "c_servicesAvailable",
+      "photoGallery",
+      "id",
 
       // "c_expertServices.image",
     ],
     // Defines the scope of entities that qualify for this stream.
     filter: {
-      entityTypes: ["location"],
+      entityIds: ["1225312107329482395"],
     },
     // The entity language profiles that documents will be generated for.
     localization: {
@@ -142,7 +128,7 @@ export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
  * components any way you'd like as long as it lives in the src folder (though you should not put
  * them in the src/templates folder as this is specific for true template files).
  */
-const Location: Template<TemplateRenderProps> = ({
+const Intent: Template<TemplateRenderProps> = ({
   relativePrefixToRoot,
   path,
   document,
@@ -150,111 +136,156 @@ const Location: Template<TemplateRenderProps> = ({
   const _cpy = document;
   const {
     _site,
+    primaryPhoto,
     name,
-    address,
-    openTime,
-    hours,
-    mainPhone,
-    geocodedCoordinate,
-    services,
+    slug,
+    c_customerReviews,
+    c_icon,
     c_promotion1,
-    c_aboutTheStore,
     c_promotion2,
+    c_storeCreditCard,
     c_trendingProducts,
-    c_expertServices,
-    c_relatedFAQs,
-    c_nearbyLocations,
-    c_storefrontPhoto,
-    geomodifier,
-    c_servicesAvailable,
+    photoGallery,
+    id,
   } = document;
 
+  function classNames(...classes: any) {
+    return classes.filter(Boolean).join(" ");
+  }
   return (
     <>
-      <Schema document={_cpy}></Schema>
+      {/* <Schema document={_cpy}></Schema> */}
       <PageLayout>
         <div className="bg-gray-200 my-8 ">
           {/* hero */}
           <div className="flex flex-col">
             <div>
-              <img
-                src="https://i.imgur.com/2qJ5k7P.png"
-                className="w-full h-auto"
-                alt=""
-              />
-            </div>
-            <div className="centered-container w-full ">
-              <div className="grid grid-cols-3 justify-between w-full gap-8">
-                <div className="bg-white shadow leading-10 border text-2xl  h-fit -mt-72">
-                  <Image image={c_storefrontPhoto}></Image>
-                  <div className=" flex flex-col p-8 justify-between gap-y-4">
-                    <div className="font-semibold text-4xl">
-                      {name}-{geomodifier}
-                    </div>
-                    <div>{address.line1}</div>
-                    <div className="underline text-blue-200">{mainPhone}</div>
-                    <div className="underline text-blue-200">
-                      Make This My Store
-                    </div>
-                    <div className="underline text-blue-200">
-                      Get Directions
-                    </div>
-                    <div className="text-base">
-                      SCHEDULE CUSTOM SPACES APPOINTMENT
+              <div className="relative isolate overflow-hidden pt-14">
+                <Image
+                  image={primaryPhoto}
+                  className="absolute inset-0 -z-10 h-full w-full object-cover brightness-75"
+                ></Image>
+
+                <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56 text-4xl">
+                  <div className="text-center">
+                    <h1 className="font-bold tracking-tight text-white sm:text-6xl">
+                      CLOSET
+                    </h1>
+                    <div className="mt-10 flex items-center justify-center gap-x-6">
+                      <a
+                        href="#"
+                        className="text-2xl font-semibold leading-6 text-white border px-4 py-2 border-white"
+                      >
+                        Learn more
+                      </a>
                     </div>
                   </div>
-                </div>
-                <div className="bg-white shadow border p-8">
-                  {hours && <Hours hours={hours} title="Hours" />}
-                </div>
-                <div className="bg-white shadow border p-8 text-xl">
-                  {services && <List list={c_servicesAvailable}></List>}
                 </div>
               </div>
             </div>
           </div>
           {/* Free consultation block */}
           {c_promotion1 && (
-            <div className="  bg-white flex w-full justify-center gap-8 py-16">
+            <div className=" bg-white flex w-full justify-center gap-2 py-16 px-44">
               <div className="w-1/2 ">
-                <div className="  flex flex-col h-full justify-evenly  ">
+                <div className="  flex flex-col h-full justify-evenly ">
                   <div className="text-5xl">{c_promotion1.promotionTitle}</div>
-                  <div className="text-xl">
-                    <LexicalRichText
-                      serializedAST={JSON.stringify(
-                        c_promotion1.description.json
-                      )}
-                    />
-                  </div>
-                  <div className="rounded-md border w-fit px-5 py-2.5 border-black">
-                    {c_promotion1.cTA.label}
-                  </div>
                 </div>
               </div>
-              <div>
-                <Image
-                  image={c_promotion1.image}
-                  className="h-[500px] w-[500px]"
+
+              <div className="text-xl w-1/2">
+                <LexicalRichText
+                  serializedAST={JSON.stringify(c_promotion1.description.json)}
                 />
               </div>
             </div>
           )}
+
+          <Tab.Group as="div" className="flex flex-col-reverse my-24">
+            {/* Image selector */}
+            <div className="mx-auto mt-6 hidden w-full  sm:block  ">
+              <Tab.List className="grid grid-cols-6 px-36">
+                {photoGallery.map((image: any, index: any) => (
+                  <Tab
+                    key={index}
+                    className="relative flex h-24 !w-1/2 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4 "
+                  >
+                    {({ selected }) => (
+                      <>
+                        <span className="absolute inset-0 overflow-hidden rounded-md">
+                          <Image
+                            image={image}
+                            className="h-full  object-cover object-center "
+                          ></Image>
+                        </span>
+                        <span
+                          className={classNames(
+                            selected ? "ring-indigo-500" : "ring-transparent",
+                            "pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2"
+                          )}
+                          aria-hidden="true"
+                        />
+                      </>
+                    )}
+                  </Tab>
+                ))}
+              </Tab.List>
+            </div>
+
+            <Tab.Panels className="aspect-h-1 aspect-w-1 w-full">
+              {photoGallery.map((image: any, index: any) => (
+                <Tab.Panel key={index}>
+                  <Image
+                    image={image}
+                    className="h-full w-full object-cover object-center sm:rounded-lg  mx-auto"
+                  ></Image>
+                </Tab.Panel>
+              ))}
+            </Tab.Panels>
+          </Tab.Group>
+
           {/* Trending products */}
+          <img src="https://i.imgur.com/w5uXVx5.png" alt="" />
           {c_trendingProducts && (
             <ProductsCarousel
-              type="location"
-              slidesToShow={4}
+              type="intent"
+              slidesToShow={3}
               data={c_trendingProducts.products}
               header={c_trendingProducts.sectionHeader}
             />
           )}
+          {c_customerReviews && (
+            <div className="bg-white px-16 py-16">
+              <div className="mb-8 text-5xl text-center">
+                What our customers say:
+              </div>
+              <div className="grid grid-cols-3 gap-4 px-8">
+                {c_customerReviews.map((item: any, index: any) => (
+                  <div className="rounded-md px-14 py-14 flex flex-col justify-center border border-black text-center">
+                    <div>{item.customerReview}</div>
+                    <div className="font-medium mt-4">{item.customerName}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {c_storeCreditCard && (
+            <div className="bg-[#fcf7f0] px-16 mx-auto flex  flex-col gap-4 items-center py-16">
+              <Image image={c_storeCreditCard.image} className="!w-60"></Image>
+              <div className="text-3xl">{c_storeCreditCard.name}</div>
+              <div className="text-xl">
+                {c_storeCreditCard.description}
+              </div>{" "}
+              <div className="rounded-md border w-fit px-5 py-2.5 border-black uppercase">
+                Learn more
+              </div>
+            </div>
+          )}
           {/* New and now */}
           {c_promotion2 && (
-            <div
-              className="centered-container bg-white flex w-full gap-8 h-[600px] bg-contain bg-no-repeat text-white"
-              style={{ backgroundImage: `url(${c_promotion2.image.url} )` }}
-            >
-              <div className="w-1/2">
+            <div className="  bg-white flex w-full justify-center gap-8 py-16">
+              <div className="w-1/2 ">
                 <div className="  flex flex-col h-full justify-evenly  ">
                   <div className="text-5xl">{c_promotion2.promotionTitle}</div>
                   <div className="text-xl">
@@ -264,58 +295,18 @@ const Location: Template<TemplateRenderProps> = ({
                       )}
                     />
                   </div>
-                  <div className="rounded-md border w-fit px-5 py-2.5 border-white">
+                  <div className="rounded-md border w-fit px-5 py-2.5 border-black">
                     {c_promotion2.cTA.label}
                   </div>
                 </div>
               </div>
-            </div>
-          )}
-          {/* Expert Services */}
-          {c_expertServices && (
-            <ExpertServicesCarousel
-              data={c_expertServices.ourExpertServices}
-              header={"Our Expert  Services"}
-            />
-          )}
-          {/* FAQs */}
-          {c_relatedFAQs && (
-            <div className="centered-container py-36 space-y-16">
-              <div className="text-4xl mx-auto text-center font-bold">
-                Frequently Asked Questions
-              </div>
-              {c_relatedFAQs.relatedFAQs.map((item: any, index: any) => (
-                <div key={index}>
-                  <FAQs faq={item}></FAQs>
-                </div>
-              ))}
-            </div>
-          )}
-          {/* store detail */}
-          {c_aboutTheStore && (
-            <div className="bg-white flex items-center gap-4">
-              <div className="w-1/2">
-                <Image image={c_aboutTheStore.storeImage} layout="fill"></Image>
-              </div>
-              <div className="w-1/2 px-6">
-                <div className="w-4/5 flex flex-col gap-4 ">
-                  <div className="text-5xl font-bold">
-                    {c_aboutTheStore.aboutSectionTitle}
-                  </div>
-                  <div>
-                    <LexicalRichText
-                      serializedAST={JSON.stringify(
-                        c_aboutTheStore.aboutDescription.json
-                      )}
-                    ></LexicalRichText>
-                  </div>
-                </div>
+              <div>
+                <Image
+                  image={c_promotion2.image}
+                  className="h-[500px] w-[500px]"
+                />
               </div>
             </div>
-          )}
-          {/* Near by locations */}
-          {c_nearbyLocations && (
-            <Carousel data={c_nearbyLocations.nearbyLocations} />
           )}
         </div>
       </PageLayout>
@@ -323,4 +314,4 @@ const Location: Template<TemplateRenderProps> = ({
   );
 };
 
-export default Location;
+export default Intent;
