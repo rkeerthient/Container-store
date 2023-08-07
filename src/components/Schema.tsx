@@ -1,6 +1,6 @@
 import * as React from "react";
 import { JsonLd } from "react-schemaorg";
-import { ClothingStore, FAQPage, Place, ItemList } from "schema-dts";
+import { ClothingStore, FAQPage, Place, ItemList, Store } from "schema-dts";
 import Product from "../types/products";
 const Schema = (props: any) => {
   const { document } = props;
@@ -22,27 +22,30 @@ const Schema = (props: any) => {
       });
     });
   }
+  if (document.c_relatedFAQs.relatedFAQs) {
+    document.c_relatedFAQs.relatedFAQs.forEach((item: any) => {
+      itemListElement.push({
+        "@type": "Question",
+        name: item.name,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer,
+        },
+      });
+    });
+  }
 
-  if (document.c_entityCollection) {
-    document.c_entityCollection.forEach((item1: any, index: any) => {
-      item1.c_products.forEach((item: Product, index: any) => {
-        console.log(JSON.stringify(item));
-
+  if (document.c_trendingProducts.products) {
+    document.c_trendingProducts.products.forEach(
+      (item: Product, index: any) => {
         productsList.push({
           "@type": "ListItem",
           position: parseInt(index) + 1,
           item: {
             "@type": "Product",
             name: item.name,
-            image: item.photoGallery && item.photoGallery[0].image.url,
-            category: item.c_category && item.c_category,
+            image: item.primaryPhoto && item.primaryPhoto.image.url,
             sku: document.id,
-            aggregateRating: {
-              "@type": "AggregateRating",
-              bestRating: "5",
-              ratingCount: item.c_reviews,
-              ratingValue: item.c_rating,
-            },
             offers: {
               "@type": "Offer",
               availability: "https://schema.org/InStock",
@@ -51,17 +54,16 @@ const Schema = (props: any) => {
             },
           },
         });
-      });
-    });
+      }
+    );
   }
-  console.log(JSON.stringify(productsList));
 
   return (
     <>
-      <JsonLd<ClothingStore>
+      <JsonLd<Store>
         item={{
           "@context": "https://schema.org",
-          "@type": "ClothingStore",
+          "@type": "Store",
           name,
           address: {
             "@type": "PostalAddress",
@@ -90,13 +92,13 @@ const Schema = (props: any) => {
           itemListElement: productsList,
         }}
       />
-      {/*  <JsonLd<FAQPage>
+      <JsonLd<FAQPage>
         item={{
           "@context": "https://schema.org",
           "@type": "FAQPage",
           mainEntity: faqsList,
         }}
-      /> */}
+      />
 
       {document.geocodedCoordinate && (
         <JsonLd<Place>

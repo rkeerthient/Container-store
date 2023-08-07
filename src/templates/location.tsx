@@ -29,6 +29,7 @@ import ProductsCarousel from "../components/ProductsCarousel";
 import ExpertServicesCarousel from "../components/ExpertServicesCarousel";
 import FAQs from "../components/FAQs";
 import { LexicalRichText } from "@yext/react-components";
+import Schema from "../components/Schema";
 
 /**
  * Required when Knowledge Graph data is used for a template.
@@ -146,6 +147,7 @@ const Location: Template<TemplateRenderProps> = ({
   path,
   document,
 }) => {
+  const _cpy = document;
   const {
     _site,
     name,
@@ -169,6 +171,7 @@ const Location: Template<TemplateRenderProps> = ({
 
   return (
     <>
+      <Schema document={_cpy}></Schema>
       <PageLayout>
         <div className="bg-gray-200 my-8 ">
           {/* hero */}
